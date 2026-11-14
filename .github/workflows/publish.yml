@@ -1,28 +1,21 @@
-# Publishes the app to npm with provenance (npm trusted publishing).
-#
-# One-time setup:
-# 1. On npmjs.com open your package > Settings > Trusted Publisher and register
-#    this repository and this workflow file (publish.yml).
-#    See https://docs.npmjs.com/trusted-publishers
-# 2. Push a version tag (e.g. `git tag v1.0.0 && git push --tags`) or run the
-#    workflow manually from the Actions tab.
-#
-# Publishing with provenance certifies which GitHub repository the package is
-# built from. This is also how you claim ownership of your app in a Twenty
-# marketplace: the claim flow verifies you own the GitHub account or
-# organization the provenance points to.
+# Publishes to npm with provenance when main carries a version that is not
+# on npm yet. Provenance ties the package to this public repo, which is what
+# the Twenty marketplace claim flow checks.
 name: Publish
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
   contents: read
-  # Required for npm trusted publishing (OIDC provenance).
   id-token: write
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
 
 jobs:
   publish:
@@ -31,25 +24,45 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
 
+      - name: Skip if this version is already published
+        id: check
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "$NAME@$VERSION" version >/dev/null 2>&1; then
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            echo "$NAME@$VERSION is already on npm"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Update npm
-        # Trusted publishing requires npm 11.5.1 or later.
+        if: steps.check.outputs.publish == 'true'
         run: npm install -g npm@latest
 
       - name: Install Twenty CLI
+        if: steps.check.outputs.publish == 'true'
         run: npm install -g twenty@2.58.0
 
       - name: Install dependencies
+        if: steps.check.outputs.publish == 'true'
         run: yarn install --immutable
 
+      - name: Lint, typecheck and unit tests
+        if: steps.check.outputs.publish == 'true'
+        run: yarn lint && yarn typecheck && yarn test:unit
+
       - name: Publish to npm
-        # Uncomment if publishing from a private source repo: npm rejects
-        # OIDC provenance for private repos
-        # env:
-        #   TWENTY_APP_PUBLISH_DISABLE_PROVENANCE: 'true'
+        if: steps.check.outputs.publish == 'true'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: twenty app publish
