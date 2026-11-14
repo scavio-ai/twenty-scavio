@@ -19,6 +19,10 @@ export default defineApplication({
   author: 'Scavio',
   category: 'Enrichment',
   logo: 'public/logo.png',
+  galleryImages: [
+    'public/gallery/enriched-companies.png',
+    'public/gallery/enrich-command.png',
+  ],
   websiteUrl: 'https://scavio.dev/docs/company-enrich?via=twenty',
   termsUrl: 'https://scavio.dev/terms',
   emailSupport: 'hello@scavio.dev',
