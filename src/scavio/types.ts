@@ -26,7 +26,6 @@ export type ScavioCompanyData = {
     email: string | null;
     email_status: 'published' | 'verified' | 'risky' | 'not_found';
   } | null;
-  pages_read: string[];
 };
 
 export type ScavioEnrichResponse = {

@@ -87,7 +87,6 @@ describe('buildCompanyUpdate', () => {
           phones: [], socials: {}, contact_page: null, address: null, place_id: null,
         },
         owner: null,
-        pages_read: ['https://acme.com/'],
       },
       domain: 'acme.com',
       existing: {},
@@ -98,8 +97,7 @@ describe('buildCompanyUpdate', () => {
     expect(update).toEqual({
       scavioEnrichmentStatus: 'NO_CONTACTS',
       scavioLastEnrichedAt: NOW,
-      scavioEnrichmentNote:
-        'Read 1 page(s) of acme.com; no published contact details found.',
+      scavioEnrichmentNote: 'No published contact details found on acme.com.',
     });
   });
 });

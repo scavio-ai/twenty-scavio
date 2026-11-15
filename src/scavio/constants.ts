@@ -7,7 +7,7 @@ export const SCAVIO_USAGE_PATH = '/api/v1/usage';
 export const SCAVIO_SIGNUP_URL = 'https://scavio.dev/?via=twenty';
 
 export const CLIENT_SOURCE_HEADER_VALUE = 'twenty-app';
-export const USER_AGENT = 'scavio-twenty/0.1.0';
+export const USER_AGENT = 'scavio-twenty/0.1.1';
 
 export const DEFAULT_PARALLEL_REQUESTS = 1;
 export const MAX_PARALLEL_REQUESTS = 10;

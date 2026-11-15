@@ -1,6 +1,6 @@
 // Real /api/v1/company/enrich responses captured 2026-11-14, unedited except
-// for pages_read being trimmed to its first two entries and credits_remaining
-// set to 0.
+// for pages_read being removed (the API dropped it 2026-11-15) and
+// credits_remaining set to 0.
 import { type ScavioEnrichResponse } from 'src/scavio/types';
 
 export const NORTH_AUSTIN_DENTISTRY: ScavioEnrichResponse = {
@@ -34,11 +34,7 @@ export const NORTH_AUSTIN_DENTISTRY: ScavioEnrichResponse = {
       "source_url": "https://www.linkedin.com/in/logan-miller-9486b1150",
       "email": null,
       "email_status": "not_found"
-    },
-    "pages_read": [
-      "https://northaustindentist.com/",
-      "https://northaustindentist.com/contact/"
-    ]
+    }
   },
   "response_time": 8286,
   "fetched_at": "2026-11-14T18:06:48.863Z",
@@ -71,11 +67,7 @@ export const INTERSTATE_ROOFING: ScavioEnrichResponse = {
       "source_url": "https://interstateroof.com/about-us/",
       "email": null,
       "email_status": "not_found"
-    },
-    "pages_read": [
-      "https://interstateroof.com/",
-      "https://interstateroof.com/about-us/"
-    ]
+    }
   },
   "response_time": 16849,
   "fetched_at": "2026-11-14T18:07:16.644Z",
@@ -112,11 +104,7 @@ export const PLAUSIBLE: ScavioEnrichResponse = {
       "source_url": "https://plausible.io/about",
       "email": null,
       "email_status": "not_found"
-    },
-    "pages_read": [
-      "https://plausible.io/",
-      "https://plausible.io/contact"
-    ]
+    }
   },
   "response_time": 8530,
   "fetched_at": "2026-11-14T18:07:31.567Z",
@@ -144,11 +132,7 @@ export const AUSTIN_DENTAL_WORKS: ScavioEnrichResponse = {
       "address": null,
       "place_id": null
     },
-    "owner": null,
-    "pages_read": [
-      "https://austindentalworks.com/",
-      "https://www.austindentalworks.com/contact/"
-    ]
+    "owner": null
   },
   "response_time": 11850,
   "fetched_at": "2026-11-14T18:07:01.176Z",

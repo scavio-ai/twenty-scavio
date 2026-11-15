@@ -120,7 +120,7 @@ export const buildCompanyUpdate = ({
     ? owner && ownerName && isHttpUrl(owner.source_url)
       ? `Owner found on ${owner.source_url}`
       : null
-    : `Read ${data.pages_read?.length ?? 0} page(s) of ${domain}; no published contact details found.`;
+    : `No published contact details found on ${domain}.`;
 
   return { status, update };
 };
