@@ -52,6 +52,18 @@ describe('cleanPhones', () => {
     ]);
   });
 
+  it('reads the E.164 numbers the API returns since 2026-11-15', () => {
+    expect(
+      cleanPhones(['+15128171168', '+15124583111', '+15128171168'], 'northaustindentist.com'),
+    ).toEqual([
+      { number: '5128171168', countryCode: 'US', callingCode: '+1' },
+      { number: '5124583111', countryCode: 'US', callingCode: '+1' },
+    ]);
+    expect(cleanPhones(['+495681939521'], 'stuhlmann.de')).toEqual([
+      { number: '5681939521', countryCode: 'DE', callingCode: '+49' },
+    ]);
+  });
+
   it('keeps one valid number out of three spellings', () => {
     expect(
       cleanPhones(AUSTIN_DENTAL_WORKS.data.company.phones, 'austindentalworks.com'),
